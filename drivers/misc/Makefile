@@ -57,3 +57,4 @@ obj-$(CONFIG_GDSYS_IOEP) += gdsys_ioep.o
 obj-$(CONFIG_GDSYS_RXAUI_CTRL) += gdsys_rxaui_ctrl.o
 obj-$(CONFIG_MPC83XX_SERDES) += mpc83xx_serdes.o
 obj-$(CONFIG_FS_LOADER) += fs_loader.o
+obj-$(CONFIG_JZ4780_EFUSE) += jz4780_efuse.o
