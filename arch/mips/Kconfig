@@ -123,6 +123,7 @@ config TARGET_RETROMINI_RS97
 	select OF_CONTROL
 	select SUPPORTS_CPU_MIPS32_R1
 	select SUPPORTS_LITTLE_ENDIAN
+	select SUPPORTS_HARD_FLOAT
 	imply CMD_DM
 	help
 		This Supports Retro Mini RS-97 devices
@@ -270,6 +271,9 @@ config MIPS_BOOT_FDT
 endmenu
 
 config SUPPORTS_BIG_ENDIAN
+	bool
+
+config SUPPORTS_HARD_FLOAT
 	bool
 
 config SUPPORTS_LITTLE_ENDIAN

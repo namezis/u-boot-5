@@ -60,7 +60,11 @@ LDFLAGS_FINAL			+= --emit-relocs
 endif
 
 PLATFORM_CPPFLAGS		+= -G 0 -mno-abicalls -fno-pic
+ifdef CONFIG_SUPPORTS_HARD_FLOAT
+PLATFORM_CPPFLAGS		+= -mhard-float
+else
 PLATFORM_CPPFLAGS		+= -msoft-float
+endif
 PLATFORM_LDFLAGS		+= -G 0 -static -n -nostdlib
 PLATFORM_RELFLAGS		+= -ffunction-sections -fdata-sections
 LDFLAGS_FINAL			+= --gc-sections
