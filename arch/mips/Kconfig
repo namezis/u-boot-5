@@ -74,6 +74,12 @@ config MACH_PIC32
 	select OF_CONTROL
 	imply CMD_DM
 
+config MACH_XBURST
+	bool "Support Ingenic XBurst"
+	select DM
+	select OF_CONTROL
+	imply CMD_DM
+
 config TARGET_BOSTON
 	bool "Support Boston"
 	select DM
