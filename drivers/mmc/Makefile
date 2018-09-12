@@ -26,6 +26,7 @@ obj-$(CONFIG_MMC_DW_ROCKCHIP)		+= rockchip_dw_mmc.o
 obj-$(CONFIG_MMC_DW_SOCFPGA)		+= socfpga_dw_mmc.o
 obj-$(CONFIG_FSL_ESDHC) += fsl_esdhc.o
 obj-$(CONFIG_FTSDC010) += ftsdc010_mci.o
+obj-$(CONFIG_MMC_JZ4760)		+= jz4760_mmc.o
 obj-$(CONFIG_GENERIC_ATMEL_MCI) += gen_atmel_mci.o
 obj-$(CONFIG_MMC_MESON_GX) += meson_gx_mmc.o
 obj-$(CONFIG_MMC_SPI) += mmc_spi.o

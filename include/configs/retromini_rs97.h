@@ -1,5 +1,5 @@
-#ifndef __RS97_CONFIG_H
-#define __RS97_CONFIG_H
+#ifndef __RETROMINI_RS97_H
+#define __RETROMINI_RS97_H
 
 #define CONFIG_ENV_SIZE 8192
 
@@ -24,8 +24,10 @@
 */
 #define CONFIG_OF_CONTROL			1
 
+#define CONFIG_SPL_TEXT_BASE		0x80000200
+
 
 #define CONFIG_SKIP_LOWLEVEL_INIT	1
 
 
-#endif // __RS97_CONFIG_H
+#endif // __RETROMINI_RS97_H

@@ -332,6 +332,16 @@ config MMC_BCM2835
 
 	  If unsure, say N.
 
+config MMC_JZ4760
+	bool "Ingenic JZ4760 SD/MMC Host Controller support"
+	depends on SOC_JZ4760 
+	depends on BLK && DM_MMC
+	depends on OF_CONTROL
+	default y
+	help
+	  This selects support for the SD/MMC Host Controller on Ingenic JZ4760
+	  devices
+
 config MMC_SANDBOX
 	bool "Sandbox MMC support"
 	depends on SANDBOX

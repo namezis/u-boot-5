@@ -4,8 +4,8 @@
 #include "ingenic,jz4760.dtsi"
 
 / {
-	compatible = "coolboy,rs97", "ingenic,jz4770";
-	model = "Coolboy RS-97";
+	compatible = "retromini,rs97", "ingenic,jz4770";
+	model = "Retro Mini RS-97";
 
 	aliases {
 		serial0 = &uart0;
@@ -59,4 +59,8 @@
 &uhc {
 	/* We might want a USB host someday */
 	status = "disabled";
+};
+
+&mmc0 {
+	status = "okay";
 };
