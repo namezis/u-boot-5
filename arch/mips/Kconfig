@@ -116,6 +116,17 @@ config TARGET_XILFPGA
 	help
 	  This supports IMGTEC MIPSfpga platform
 
+config TARGET_RETROMINI_RS97
+	bool "Support Retro Mini RS-97"
+	select DM
+	select DM_SERIAL
+	select OF_CONTROL
+	select SUPPORTS_CPU_MIPS32_R1
+	select SUPPORTS_LITTLE_ENDIAN
+	imply CMD_DM
+	help
+		This Supports Retro Mini RS-97 devices
+
 endchoice
 
 source "board/imgtec/boston/Kconfig"
@@ -123,6 +134,7 @@ source "board/imgtec/malta/Kconfig"
 source "board/imgtec/xilfpga/Kconfig"
 source "board/micronas/vct/Kconfig"
 source "board/qemu-mips/Kconfig"
+source "board/retromini/rs97/Kconfig"
 source "arch/mips/mach-ath79/Kconfig"
 source "arch/mips/mach-bmips/Kconfig"
 source "arch/mips/mach-pic32/Kconfig"
