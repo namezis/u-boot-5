@@ -8,8 +8,9 @@
 #include <asm/io.h>
 #include <clk.h>
 #include <dm.h>
-//#include <mach/xburst.h>
+#include <mach/xburst.h>
 #include <dt-bindings/clock/jz4760-cgu.h>
+//#include <asm/jz4760.h>
 
 #define CLK_MHZ(x)	((x) / 1000000)
 
@@ -104,9 +105,12 @@ static void ddr2_pmd_ungate(void)
 /* initialize the DDR2 Controller and DDR2 PHY */
 int dram_init(void)
 {
+	/*
 	ddr2_pmd_ungate();
 	ddr2_phy_init();
 	ddr2_ctrl_init();
+	*/
+	sdram_init();
 	gd->ram_size = ddr2_calculate_size();
 
 	return 0;

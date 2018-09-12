@@ -4,4 +4,4 @@
 #
 # SPDX-License-Identifier:      GPL-2.0+
 #
-obj-y := board_init.o
+#obj-y := rs97.o
