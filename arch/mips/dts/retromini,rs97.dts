@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 /dts-v1/;
 
-#include "jz4760.dtsi"
+#include "ingenic,jz4760.dtsi"
 
 / {
 	compatible = "retromini,rs97", "ingenic,jz4770";
