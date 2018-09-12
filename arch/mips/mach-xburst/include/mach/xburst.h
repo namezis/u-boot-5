@@ -1,5 +1,5 @@
 /*
- *  linux/include/asm-mips/jzsoc.h
+ *  linux/include/mach-mips/jzsoc.h
  *
  *  Ingenic's JZXXXX SoC common include.
  *
@@ -20,35 +20,35 @@
  */
 
 #ifdef CONFIG_JZ4730
-#include <asm/jz4730.h>
+#include <mach/jz4730.h>
 #endif
 
 #ifdef CONFIG_JZ4740
-#include <asm/jz4740.h>
+#include <mach/jz4740.h>
 #endif
 
 #ifdef CONFIG_JZ4750
-#include <asm/jz4750.h>
+#include <mach/jz4750.h>
 #endif
 
 #ifdef CONFIG_JZ4750D
-#include <asm/jz4750d.h>
+#include <mach/jz4750d.h>
 #endif
 
 #ifdef CONFIG_JZ4760
-#include <asm/jz4760.h>
+#include <mach/jz4760.h>
 #endif
 
 #ifdef CONFIG_JZ4760B
-#include <asm/jz4760b.h>
+#include <mach/jz4760b.h>
 #endif
 
 #ifdef CONFIG_JZ4770
-#include <asm/jz4770.h>
+#include <mach/jz4770.h>
 #endif
 
 #ifdef CONFIG_JZ4810
-#include <asm/jz4810.h>
+#include <mach/jz4810.h>
 #endif
 
 #endif /* __ASM_JZSOC_H__ */

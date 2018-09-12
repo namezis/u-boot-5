@@ -11,6 +11,7 @@ config SOC_JZ4760
 	bool "Ingenic JZ4760"
 	select SUPPORTS_CPU_MIPS32_R1
 	select SUPPORTS_LITTLE_ENDIAN
+	select SUPPORTS_HARD_FLOAT
 	help
 	  This supports Ingenic JZ4760 chips
 
@@ -19,7 +20,7 @@ endchoice
 choice
 	prompt "Board select"
 
-config TARGET_RS97
+config TARGET_RETROMINI_RS97
 	bool "Retro Mini RS-97"
 	depends on SOC_JZ4760
 	help

@@ -110,7 +110,7 @@ int dram_init(void)
 	ddr2_phy_init();
 	ddr2_ctrl_init();
 	*/
-	sdram_init();
+	//sdram_init();
 	gd->ram_size = ddr2_calculate_size();
 
 	return 0;
