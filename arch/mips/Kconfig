@@ -126,6 +126,7 @@ source "board/qemu-mips/Kconfig"
 source "arch/mips/mach-ath79/Kconfig"
 source "arch/mips/mach-bmips/Kconfig"
 source "arch/mips/mach-pic32/Kconfig"
+source "arch/mips/mach-xburst/Kconfig"
 
 if MIPS
 

@@ -5,6 +5,7 @@
  *
  */
 #include <common.h>
+#include <asm/io.h>
 #include <clk.h>
 #include <dm.h>
 //#include <mach/xburst.h>
