@@ -1,0 +1,15 @@
+if TARGET_JZ4760_RS97
+
+config SYS_BOARD
+	default "rs97"
+
+config SYS_VENDOR
+	default "retromini"
+
+config SYS_CONFIG_NAME
+	default "rs97"
+
+config SYS_TEXT_BASE
+	default 0x80000200
+
+endif

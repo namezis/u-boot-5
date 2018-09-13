@@ -56,7 +56,7 @@ _start:
 	b		board_init_f
 	 nop
 
-#ifdef CONFIG_SOC_JZ4780
+#if defined(CONFIG_SOC_JZ4780) | defined(CONFIG_SOC_JZ4760)
 
 	.globl enable_caches
 	.ent enable_caches
@@ -95,5 +95,5 @@ enable_caches:
 
 	.end enable_caches
 
-#endif /* CONFIG_SOC_JZ4780 */
+#endif /* CONFIG_SOC_JZ4780 | CONFIG_SOC_JZ4760 */
 #endif /* !CONFIG_SPL_BUILD */

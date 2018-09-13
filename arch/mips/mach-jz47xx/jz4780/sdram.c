@@ -24,16 +24,20 @@ static const u32 get_mem_clk(void)
 
 u32 sdram_size(int cs)
 {
-	u32 dw = DDR_DW32 ? 4 : 2;
-	u32 banks = DDR_BANK8 ? 8 : 4;
-	u32 size = 0;
+	struct jz4760_ddr_config *cfg;
+	u8 data_width, banks;
+	u32 size;
 
-	if ((cs == 0) && DDR_CS0EN) {
-		size = (1 << (DDR_ROW + DDR_COL)) * dw * banks;
-		if (DDR_CS1EN && (size > 0x20000000))
-			size = 0x20000000;
-	} else if ((cs == 1) && DDR_CS1EN) {
-		size = (1 << (DDR_ROW + DDR_COL)) * dw * banks;
+	cfg = jz4760_get_ddr_config();
+
+	data_width = (cfg->dw32 + 1) * 16;
+	banks = (cfg->bank8 + 1) * 4;
+	size = (1 << (cfg->row + cfg->col)) * data_width * banks;
+
+	size = size * (cfg->cs0 + cfg->cs1);
+
+	if(size > 0x20000000) {
+		size = 0x20000000;
 	}
 
 	return size;
