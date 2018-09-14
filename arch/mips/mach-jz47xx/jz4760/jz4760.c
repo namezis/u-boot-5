@@ -33,20 +33,33 @@ void board_init_f(ulong dummy)
 
 	debug_init();
 	debug_print("\n\n\n--------------------------------------------------------------------------------\n");
-	debug_print("board_init_f\n");
+	debug_print("SPL board_init_f\n");
 
 	/* Set global data pointer */
 	gd = &gdata;
 
 	//timer_init();
-	pll_init();
-	debug_print("pll_init ok\n");
+	debug_print("PLL: ");
+	ret = pll_init();
+	if(ret == 0) {
+		debug_print(" ok\n");
+	}else{
+		debug_print(" fail\n");
+		hang();
+	}
 
-	sdram_init();
-	debug_print("sdram_init ok\n");
+	debug_print("SDRAM: ");
+	ret = sdram_init();
+	if(ret == 0) {
+		debug_print(" ok\n");
+	}else{
+		debug_print(" fail\n");
+		hang();
+	}
 
+	debug_print("Cache: ");
 	enable_caches();
-	debug_print("enable_caches ok\n");
+	debug_print(" ok\n");
 
 	/* Clear the BSS */
 	memset(__bss_start, 0, (char *)&__bss_end - __bss_start);

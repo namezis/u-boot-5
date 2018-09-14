@@ -6862,7 +6862,7 @@ do {                                                                 \
 
 
 
-void pll_init(void);
+int pll_init(void);
 int sdram_init(void);
 
 void debug_init(void);

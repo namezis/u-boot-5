@@ -39,7 +39,7 @@ uint32_t pll_calc(uint32_t pll_out) {
 		return 0;
 	}
 
-	n = 2;
+	n = 1;
 	m = (((pll_out / (JZ4760_SYS_EXTAL / 1000000)) * no * n) >> 1);
 
 	if(m > 127 || m < 2) {
@@ -60,12 +60,12 @@ uint32_t pll_calc(uint32_t pll_out) {
 	debug_putc('\n');
 	*/
 
-	plcr = (m << 24) | (n << 18) | (no << 16);
+	plcr = (m << 24) | (n << 18) | (od << 16);
 
 	return plcr;
 }
 
-void pll_init(void) {
+int pll_init(void) {
 	uint32_t cfcr;
 	uint32_t pll;
 	int n2FR[9] = {
@@ -92,26 +92,20 @@ void pll_init(void) {
 	REG_DDRC_CTRL = 0;
 	REG_DDRC_CTRL = 0;
 
-	if(JZ4760_SYS_EXTAL > 16000000) {
-		cfcr |= CPM_CPCCR_ECS;
-	}else{
-		cfcr &= ~CPM_CPCCR_ECS;
-	}
+	/* EXCLK divder is 1 */
+	cfcr &= ~CPM_CPCCR_ECS;
 
 	/* invert this if we're using MDDR */
 	cfcr |= CPM_CPCCR_MEM;
 
-	/* enable clocks */
+	/* change enable */
 	cfcr |= CPM_CPCCR_CE;
 
 	/* PLL0 */
 	pll = pll_calc(CONFIG_SYS_MHZ);
 	if(pll == 0) {
 		debug_print("PLL0: pll_calc failed\n");
-		hang();
-	}else{
-		debug_print("PLL0: CPPCR = ");
-		debug_printhex4(pll);
+		return 1;
 	}
 	REG_CPM_CPPCR = (
 			pll |
@@ -130,18 +124,21 @@ void pll_init(void) {
 	pll = pll_calc(CONFIG_SYS_MHZ / 4);
 	if(pll == 0) {
 		debug_print("PLL1: pll_calc failed\n");
-		hang();
-	}else{
-		debug_print("PLL1: CPPCR = ");
-		debug_printhex4(pll);
+		return 2;
 	}
 	REG_CPM_CPPCR1 = (
 			pll |
 			CPM_CPPCR1_PLL1EN);
 	
-	__cpm_enable_pll_change();
-
 	/* wait for pll1 output stable ...*/
 	while(!(REG_CPM_CPPCR1 & CPM_CPPCR1_PLL1S));
 
+	/*
+	debug_print("pll_init complete:\n");
+	debug_print("  PLL0 = ");
+	debug_printhex4(__cpm_get_pllout());
+	debug_print("  PLL1 = ");
+	debug_printhex4(__cpm_get_pll1out());
+	*/
+	return 0;
 }

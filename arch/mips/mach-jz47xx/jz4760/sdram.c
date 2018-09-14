@@ -366,10 +366,6 @@ unsigned int testall = 0;
 
 int sdram_init(void)
 {
-	printascii("REG_CPM_CPCCR = ");
-	printhex4(REG_CPM_CPCCR);
-	printascii("REG_CPM_CPPCR = ");
-	printhex4(REG_CPM_CPPCR);
 	printascii("sdram_init_4760\n");
 	REG_DMAC_DMACKE(0) = 0x3f;
 	REG_DMAC_DMACKE(1) = 0x3f;
@@ -382,22 +378,6 @@ int sdram_init(void)
 	testall = 0; 
 
 	cpu_clk = CONFIG_SYS_MHZ * 1000000;
-	printascii("cpu_clk = ");
-	printhex4(cpu_clk);
-
-	printascii("pll_m = ");
-	printhex4(__cpm_get_pllm());
-	printascii("pll_n = ");
-	printhex4(__cpm_get_plln());
-	printascii("pll_od = ");
-	printhex4(__cpm_get_pllod());
-
-	printascii("pllout = ");
-	printhex4(__cpm_get_pllout());
-
-	printascii("mdiv = ");
-	printhex4(__cpm_get_mdiv());
-
 	mem_clk = __cpm_get_mclk();
 
 	printascii("mem_clk = ");
