@@ -8,16 +8,13 @@
  */
 
 #include <common.h>
+#include <serial.h>
 #include <mach/jz4760.h>
 
 int board_early_init_f(void)
 {
 	__cpm_start_uart1();
 	__gpio_as_uart1();
-	return 0;
-}
-
-int dram_init(void) {
 	return 0;
 }
 

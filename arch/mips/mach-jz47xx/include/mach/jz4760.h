@@ -2804,7 +2804,8 @@ do {							\
   #define DDRC_TIMING1_TWTR_4		(3 << DDRC_TIMING1_TWTR_BIT)
 
 /* DDRC Timing Config Register 2 */
-#define DDRC_TIMING2_TRFC_BIT         12 /* AUTO-REFRESH command period. */
+#define DDRC_TIMING2_TRFC_BIT_60      12 /* AUTO-REFRESH command period. */
+#define DDRC_TIMING2_TRFC_BIT_60b     24
 #define DDRC_TIMING2_TRFC_MASK        (0xf << DDRC_TIMING2_TRFC_BIT)
 #define DDRC_TIMING2_TMINSR_BIT       8  /* Minimum Self-Refresh / Deep-Power-Down time */
 #define DDRC_TIMING2_TMINSR_MASK      (0xf << DDRC_TIMING2_TMINSR_BIT)
@@ -6862,6 +6863,10 @@ do {                                                                 \
 
 
 void pll_init(void);
-void sdram_init(void);
+int sdram_init(void);
+
+void debug_init(void);
+void debug_putc(char ch);
+void debug_print(const char *msg);
 
 #endif /* __JZ4760_H__ */
