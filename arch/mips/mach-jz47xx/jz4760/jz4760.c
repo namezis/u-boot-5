@@ -32,6 +32,7 @@ void board_init_f(ulong dummy)
 	int ret;
 
 	debug_init();
+	debug_print("\n\n\n--------------------------------------------------------------------------------\n");
 	debug_print("board_init_f\n");
 
 	/* Set global data pointer */
@@ -39,17 +40,21 @@ void board_init_f(ulong dummy)
 
 	//timer_init();
 	pll_init();
+	debug_print("pll_init ok\n");
 
 	sdram_init();
+	debug_print("sdram_init ok\n");
+
 	enable_caches();
+	debug_print("enable_caches ok\n");
 
 	/* Clear the BSS */
 	memset(__bss_start, 0, (char *)&__bss_end - __bss_start);
 
 	gd->flags |= GD_FLG_SPL_INIT;
+	debug_print("SPL_INIT flag set\n");
 
-
-	/*
+	debug_print("mmc init...");
 	ret = mmc_initialize(NULL);
 	if (ret)
 		hang();
@@ -61,21 +66,24 @@ void board_init_f(ulong dummy)
 	ret = mmc_init(mmc);
 	if (ret)
 		hang();
+	debug_print("ok\n");
 
 	header = (struct image_header *)(CONFIG_SYS_TEXT_BASE -
 					 sizeof(struct image_header));
 
+	debug_print("read header...");
 	count = blk_dread(mmc_get_blk_desc(mmc),
 		CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR,
 		0x800, header);
 	if (count == 0)
 		hang();
+	debug_print("ok\n");
 
 	image_entry_noargs_t image_entry =
 		(image_entry_noargs_t)CONFIG_SYS_TEXT_BASE;
 
+	debug_print("calling u-boot\n");
 	image_entry();
-	*/
 
 	hang();
 }

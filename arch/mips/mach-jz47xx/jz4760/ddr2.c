@@ -23,14 +23,13 @@
 #include <config.h>
 #include <mach/jz4760.h>
 #include <mach/jz4760_dram.h>
-#include <debug_uart.h>
 
 void printascii(const char *str) {
-	//printf("%s", str);
+	debug_print(str);
 }
 
 void printhex4(uint32_t c) {
-	//printf("0x%04x", c);
+	debug_printhex4(c);
 }
 
 static void jzmemset(void *dest,int ch,int len)
@@ -385,6 +384,19 @@ int sdram_init(void)
 	cpu_clk = CONFIG_SYS_MHZ * 1000000;
 	printascii("cpu_clk = ");
 	printhex4(cpu_clk);
+
+	printascii("pll_m = ");
+	printhex4(__cpm_get_pllm());
+	printascii("pll_n = ");
+	printhex4(__cpm_get_plln());
+	printascii("pll_od = ");
+	printhex4(__cpm_get_pllod());
+
+	printascii("pllout = ");
+	printhex4(__cpm_get_pllout());
+
+	printascii("mdiv = ");
+	printhex4(__cpm_get_mdiv());
 
 	mem_clk = __cpm_get_mclk();
 

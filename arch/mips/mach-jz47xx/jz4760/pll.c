@@ -11,18 +11,15 @@
 #include <common.h>
 #include <mach/jz4760.h>
 
-#define EXTAL	12000000
-
 uint32_t pll_calc(uint32_t pll_out) {
-	// PLL M = (PLL_OUT/EXTAL * NO * N >> 1)
-	// PLL N = 2
-	// PLL OD = 1
+	// CLKOUT = EXTAL * (M / N) * (1 / (OD * 2))
 	uint8_t no;
 	uint8_t m, n, od;
 	uint32_t plcr;
 
 	if(pll_out > 1500) {
 		// PLL cannot be > 1500
+		debug_print("pll_out cannot be > 1500\n");
 		return 0;
 	}else if(pll_out >= 624) {
 		od = 0;
@@ -38,24 +35,39 @@ uint32_t pll_calc(uint32_t pll_out) {
 		no = 8;
 	}else{
 		// PLL cannot be < 72
+		debug_print("pll_out cannot be < 72\n");
 		return 0;
 	}
 
 	n = 2;
-	m = (((pll_out / EXTAL) * no * n) >> 1);
+	m = (((pll_out / (JZ4760_SYS_EXTAL / 1000000)) * no * n) >> 1);
 
 	if(m > 127 || m < 2) {
 		// Invalid PLL_M
+		debug_print("pll_m out of range\n");
 		return 0;
 	}
 
-	plcr = (m << 24) | (n << 18) | (od << 16);
+	/*
+	debug_print("M=0x");
+	debug_printhex(m);
+	debug_putc(' ');
+	debug_print("N=0x");
+	debug_printhex(n);
+	debug_putc(' ');
+	debug_print("OD=0x");
+	debug_printhex(od);
+	debug_putc('\n');
+	*/
+
+	plcr = (m << 24) | (n << 18) | (no << 16);
 
 	return plcr;
 }
 
 void pll_init(void) {
 	uint32_t cfcr;
+	uint32_t pll;
 	int n2FR[9] = {
 		0, 0, 1, 2, 3, 0, 4, 0, 5,
 	};
@@ -80,7 +92,7 @@ void pll_init(void) {
 	REG_DDRC_CTRL = 0;
 	REG_DDRC_CTRL = 0;
 
-	if(EXTAL > 16000000) {
+	if(JZ4760_SYS_EXTAL > 16000000) {
 		cfcr |= CPM_CPCCR_ECS;
 	}else{
 		cfcr &= ~CPM_CPCCR_ECS;
@@ -93,8 +105,16 @@ void pll_init(void) {
 	cfcr |= CPM_CPCCR_CE;
 
 	/* PLL0 */
+	pll = pll_calc(CONFIG_SYS_MHZ);
+	if(pll == 0) {
+		debug_print("PLL0: pll_calc failed\n");
+		hang();
+	}else{
+		debug_print("PLL0: CPPCR = ");
+		debug_printhex4(pll);
+	}
 	REG_CPM_CPPCR = (
-			pll_calc(CONFIG_SYS_MHZ * 1000000) |
+			pll |
 			(0x20 << CPM_CPPCR_PLLST_BIT) |
 			CPM_CPPCR_PLLEN);
 	/* wait for pll0 output stable ...*/
@@ -107,8 +127,16 @@ void pll_init(void) {
 	REG_CPM_UHCCDR = ((CONFIG_SYS_MHZ / 4) / 48) - 1;
 
 	/* PLL1 */
+	pll = pll_calc(CONFIG_SYS_MHZ / 4);
+	if(pll == 0) {
+		debug_print("PLL1: pll_calc failed\n");
+		hang();
+	}else{
+		debug_print("PLL1: CPPCR = ");
+		debug_printhex4(pll);
+	}
 	REG_CPM_CPPCR1 = (
-			pll_calc((CONFIG_SYS_MHZ * 1000000) / 4) |
+			pll |
 			CPM_CPPCR1_PLL1EN);
 	
 	__cpm_enable_pll_change();

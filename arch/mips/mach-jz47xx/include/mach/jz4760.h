@@ -6868,5 +6868,7 @@ int sdram_init(void);
 void debug_init(void);
 void debug_putc(char ch);
 void debug_print(const char *msg);
+void debug_printhex(uint8_t v);
+void debug_printhex4(uint32_t v);
 
 #endif /* __JZ4760_H__ */

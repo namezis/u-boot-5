@@ -9,6 +9,7 @@
 #define DUART_LCR		REG8(DUART_BASE + OFF_LCR)
 #define DUART_FCR		REG8(DUART_BASE + OFF_FCR)
 #define DUART_TDR		REG8(DUART_BASE + OFF_TDR)
+#define DUART_LSR		REG8(DUART_BASE + OFF_LSR)
 
 void debug_init(void) {
 	uint32_t baud_div;
@@ -31,19 +32,41 @@ void debug_init(void) {
 }
 
 void debug_putc(char ch) {
+	if(ch == '\n') {
+		debug_putc('\r');
+	}
 	DUART_TDR = ch;
+	while((DUART_LSR & UART_LSR_TDRQ) == 0);
 }
 
 void debug_print(const char *msg) {
 	int i;
 	for(i = 0; i < strlen(msg); i++) {
-		if(msg[i] == '\n') {
-			debug_putc('\r');
-		}
 		debug_putc(msg[i]);
 	}
 }
 
+void debug_printhex(uint8_t c) {
+    int i;
+    char v;
+    for(i = 0; i < 2; i++) {
+        v = (char)((c >> (4 * (1 - i))) & 0xF);
+        if(v < 10) {
+            debug_putc(v + '0');
+        }else{
+            debug_putc((v - 10) + 'A');
+        }
+    }
+}
+
+void debug_printhex4(uint32_t c) {
+    debug_print("0x");
+	debug_printhex((c >> 24) & 0xff);
+	debug_printhex((c >> 16) & 0xff);
+	debug_printhex((c >> 8) & 0xff);
+	debug_printhex(c & 0xff);
+    debug_putc('\n');
+}
 
 struct serial_device duart = {
 	.setbrg = &debug_init,
