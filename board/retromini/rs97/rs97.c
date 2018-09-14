@@ -8,6 +8,7 @@
  */
 
 #include <common.h>
+#include <serial.h>
 #include <asm/io.h>
 #include <asm/gpio.h>
 #include <mach/jz4760.h>
@@ -18,10 +19,13 @@
 
 int board_early_init_f(void)
 {
-	__gpio_as_uart0();
-	__gpio_as_uart1();
+	pll_init();
 	__gpio_as_uart2();
-	__gpio_as_uart3();
+	__cpm_start_uart2();
+
+	__gpio_as_uart1();
+	__cpm_start_uart1();
+
 	__gpio_as_msc0();
 
 	/* SYS_POWER_IND high (LED blue, VBUS on) */
@@ -44,7 +48,7 @@ int dram_init(void)
 /* U-Boot common routines */
 int checkboard(void)
 {
-	printf("Board: Retro Mini RS-97 (2.0)\n");
+	printf("Board: RETRO-GAME-V2.0 (retromini-rs97)\n");
 	return 0;
 }
 

@@ -33,8 +33,11 @@
 #define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_TEXT_BASE
 
 /* NS16550-ish UARTs */
-#define CONFIG_SYS_NS16550_CLK		48000000
-#define CONFIG_SYS_NS16550_REG_SIZE	4
+#define CONFIG_SYS_NS16550_CLK		12000000
+#define CONFIG_SYS_NS16550_SERIAL 1
+#define CONFIG_SYS_NS16550_REG_SIZE	1
+#define CONFIG_SYS_NS16550_COM2 1
+#define CONFIG_CONS_INDEX 2
 
 /* Environment */
 #define CONFIG_ENV_IS_IN_MMC
@@ -52,7 +55,7 @@
 
 /* Miscellaneous configuration options */
 #define CONFIG_SYS_BOOTM_LEN		(64 << 20)
-#define CONFIG_BOOTARGS			"console=ttyS0,57600 rw rootwait"
+#define CONFIG_BOOTARGS			"console=ttyS1,57600 rw rootwait"
 #define CONFIG_BOOTCOMMAND		"echo fixme"
 
 /* SPL */
