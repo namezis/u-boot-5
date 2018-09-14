@@ -10,6 +10,6 @@ config SYS_CONFIG_NAME
 	default "rs97"
 
 config SYS_TEXT_BASE
-	default 0x80000200
+	default 0x80004000
 
 endif
