@@ -39,7 +39,7 @@ int sdram_init(void)
 	 */
 
 	REG_DDRC_CTRL = DDRC_CTRL_RESET;
-	udelay(200);
+	//udelay(200);
 
 	NS_PER_TICK = (1000000000 / __cpm_get_mclk());
 
@@ -69,10 +69,10 @@ int sdram_init(void)
 		);
 
 	/* 7 Configure DMMAP0 */
-	REG_DDRC_MMAP0;
+	//REG_DDRC_MMAP0;
 
 	/* 8 Configure DMMAP1 */
-	REG_DDRC_MMAP1;
+	//REG_DDRC_MMAP1;
 
 	/* INIT DDR memory device */
 	/* 9 Set CKE Pin HIGH : Configure DCTRL = 0x00000002. */
