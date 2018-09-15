@@ -1,12 +1,11 @@
 /*
- * JZ4760 DDR initialization - parameters definitions
+ * JZ4760 DDR2 memory parameters
  *
- * Copyright (c) 2015 Imagination Technologies
- * Author: Matt Redfearn <matt.redfearn.com>
+ * Copyright (c) 2018 Legitimate Data Company
+ * Author: Jeremy Grosser <jeremy@synack.me>
  *
- * SPDX-License-Identifier:	GPL-2.0+
+ * SPDX-License-Identifier: GPL-2.0+
  */
-
 #ifndef __JZ4760_DRAM_H__
 #define __JZ4760_DRAM_H__
 #include "jz4760.h"

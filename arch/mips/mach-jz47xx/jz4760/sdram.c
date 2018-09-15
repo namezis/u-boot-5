@@ -1,3 +1,11 @@
+/*
+ * JZ4760 memory configuration
+ *
+ * Copyright (c) 2018 Legitimate Data Company
+ * Author: Jeremy Grosser <jeremy@synack.me>
+ *
+ * SPDX-License-Identifier: GPL-2.0+
+ */
 #include <common.h>
 #include <config.h>
 #include <mach/jz4760.h>

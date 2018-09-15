@@ -6859,10 +6859,6 @@ do {                                                                 \
 
 #endif /* !__ASSEMBLY__ */
 
-//H5PS1G63EFR-Y5C
-
-
-
 int pll_init(void);
 int sdram_init(void);
 

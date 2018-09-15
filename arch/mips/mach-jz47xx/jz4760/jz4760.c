@@ -1,8 +1,8 @@
 /*
  * JZ4760 common routines
  *
- * Copyright (c) 2013 Imagination Technologies
- * Author: Paul Burton <paul.burton@imgtec.com>
+ * Copyright (c) 2018 Legitimate Data Company
+ * Author: Jeremy Grosser <jeremy@synack.me>
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */

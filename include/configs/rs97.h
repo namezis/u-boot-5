@@ -1,12 +1,11 @@
 /*
- * RS97 configuration
+ * RS-97 board configuration
  *
- * Copyright (c) 2013 Imagination Technologies
- * Author: Paul Burton <paul.burton@imgtec.com>
+ * Copyright (c) 2018 Legitimate Data Company
+ * Author: Jeremy Grosser <jeremy@synack.me>
  *
- * SPDX-License-Identifier:	GPL-2.0+
+ * SPDX-License-Identifier: GPL-2.0+
  */
-
 #ifndef __CONFIG_RS97_H__
 #define __CONFIG_RS97_H__
 

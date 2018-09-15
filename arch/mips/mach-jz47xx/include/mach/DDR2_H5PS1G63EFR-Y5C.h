@@ -2,7 +2,7 @@
 #define __DDR2_CONFIG_H
 
 /*
- * This file contains the memory configuration parameters for the cygnus board.
+ * This file contains the memory configuration parameters for the RS-97 board.
  */
 /*--------------------------------------------------------------------------------
  * DDR2 info
