@@ -27,12 +27,14 @@
 #define DDR_tMINSR 6 /* Minimum Self-Refresh / Deep-Power-Down */
 #define DDR_tXP 2    /* tCK EXIT-POWER-DOWN to next valid command period: 1 to 8 tCK. */
 #define DDR_tMRD 2   /* unit: tCK. Load-Mode-Register to next valid command period: 1 to 4 tCK */
+#define DDR_tCKE 3
 
 /*
  * DDR2 controller refcnt register
  */
 #define DDR_tREFI	        7800	/* Refresh period: ns */
 
+/* use a higher divider to reduce power consumption */
 #define DDR_CLK_DIV 1    /* Clock Divider. auto refresh
 						  *	cnt_clk = memclk/(16*(2^DDR_CLK_DIV))
 						  */
