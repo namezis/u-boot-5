@@ -65,7 +65,7 @@ uint8_t ddr_longval(uint8_t v) {
 
 void wait_ddr_ticks(uint32_t tck) {
 	tck = (__cpm_get_cclk() / 1000000000);
-	while(tck--);
+	udelay(tck * 1000);
 }
 
 int sdram_init(void)
