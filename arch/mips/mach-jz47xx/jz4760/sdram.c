@@ -21,15 +21,12 @@ static volatile uint32_t NS_PER_TICK;
 int memtest(uint32_t *base, size_t len) {
 	size_t i;
 
-	debug_printhex4(base);
-
 	len = len / sizeof(uint32_t);
 	for(i = 0; i < len; i++) {
 		base[i] = 0x33333333;
 	}
 	for(i = 0; i < len; i++) {
 		if(base[i] != 0x33333333) {
-			debug_print("memtest:FAIL");
 			return 1;
 		}
 	}
@@ -89,13 +86,23 @@ int sdram_init(void)
 
 	NS_PER_TICK = (1000000000 / __cpm_get_mclk());
 
+	__cpm_start_ddr();
+
 	REG_DDRC_CTRL = DDRC_CTRL_RESET;
 	wait_ddr_ticks(DDR_tRFC);
 
 	/* INIT DDRC */
 	/* 4 Configure DCFG */
 	debug_print("4 ");
-	REG_DDRC_CFG = 0;
+	REG_DDRC_CFG = (
+		DDRC_CFG_TYPE_DDR2 | DDRC_CFG_MPRT | 
+		((DDR_ROW - 12) << DDRC_CFG_ROW_BIT) |
+		((DDR_COL - 8) << DDRC_CFG_COL_BIT) |
+		DDR_CS1EN | DDR_CS0EN |
+		DDRC_CFG_CL_5 |
+		(DDR_BANK8 << DDRC_CFG_BA) |
+		DDRC_CFG_DW
+		);
 
 	/* 5 Configure DTIMING1 */
 	debug_print("5 ");
@@ -247,15 +254,15 @@ int sdram_init(void)
 
 	/* 25 Configure DDQS = 0x. */
 	debug_print("25 ");
-	REG_DDRC_DQS = (DDRC_DQS_AUTO | DDRC_DQS_DET);
+	REG_DDRC_DQS = (DDRC_DQS_AUTO | DDRC_DQS_DET | DDRC_DQS_SRDET);
 
 	/* 26 Read register DDQS. */
 	debug_print("26 ");
-	/* wait for DQS READY=1, ERROR=0 */
-	while(!(REG_DDRC_DQS & (DDRC_DQS_READY | DDRC_DQS_ERROR)));
+	/* wait for DQS READY=1 */
+	while(!(REG_DDRC_DQS & DDRC_DQS_READY));
 
-#if 0
 	/* 27 configure TSEL form min to max, under each value of TSEL, do 28. */
+	debug_print("27 ");
 	for(tsel = TSEL_MIN; tsel < TSEL_MAX; tsel++) {
 		/* 28 Configure {MSEL, HL, QUAR} register, form min delay to max delay (relate to 1.2.7). You
 		 * need write/read some data by CPU or DMA or other device, to check if the sdram work
@@ -274,6 +281,7 @@ int sdram_init(void)
 				(hl << DDRC_DELAYCTRL1_HL_BIT) |
 				(quar << DDRC_DELAYCTRL1_QUAR_BIT)
 				);
+			wait_ddr_ticks(DDR_tRP);
 			
 			err = memtest((uint32_t *)(DDR_MEM_PHY_BASE), 0x1000);
 			if(err == 0) {
@@ -290,12 +298,8 @@ int sdram_init(void)
 			}
 		}
 	}
-#endif
-	debug_print("27 ");
-	REG_DDRC_DELAYCTRL1 = DDRC_DELAYCTRL1_MAUTO;
-	return memtest((uint32_t *)(DDR_MEM_PHY_BASE + 0x1000), 0x1000);
 
-//sdram_init_end:
+sdram_init_end:
 	/* END INITIALIZING SEQUENCE */
-	//return err;
+	return err;
 }

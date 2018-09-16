@@ -68,6 +68,8 @@ uint32_t pll_calc(uint32_t pll_out) {
 int pll_init(void) {
 	uint32_t cfcr;
 	uint32_t pll;
+	int i;
+
 	int n2FR[9] = {
 		0, 0, 1, 2, 3, 0, 4, 0, 5,
 	};
@@ -83,14 +85,9 @@ int pll_init(void) {
 		(n2FR[div[5]] << CPM_CPCCR_SDIV_BIT);
 
 	// write REG_DDRC_CTRL 8 times to clear ddr fifo
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
-	REG_DDRC_CTRL = 0;
+	for(i = 0; i < 8; i++) {
+		REG_DDRC_CTRL = 0;
+	}
 
 	/* EXCLK divder is 1 */
 	cfcr &= ~CPM_CPCCR_ECS;
