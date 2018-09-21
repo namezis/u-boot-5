@@ -65,17 +65,22 @@ void board_init_f(ulong dummy)
 	memset(__bss_start, 0, (char *)&__bss_end - __bss_start);
 
 	gd->flags |= GD_FLG_SPL_INIT;
-	debug_print("SPL_INIT flag set\n");
 
-	debug_print("mmc init...");
+	debug_print("mmc_initialize ");
+
+	__cpm_select_msc_clk(0, 1);
+	__cpm_start_msc0();
+
 	ret = mmc_initialize(NULL);
 	if (ret)
 		hang();
 
+	debug_print("find_mmc_device ");
 	mmc = find_mmc_device(BOOT_DEVICE_MMC1);
 	if (ret)
 		hang();
 
+	debug_print("mmc_init ");
 	ret = mmc_init(mmc);
 	if (ret)
 		hang();

@@ -26,7 +26,7 @@
 /* Banks each chip: 0-4bank, 1-8bank */
 #define DDR_BANK8	1
 /* 0 - 16-bit data width, 1 - 32-bit data width */
-#define DDR_DW32	1
+#define DDR_DW32	0
 
 /* Refresh period: 64ms / 32768 = 1.95 us , 2 ^ 15 = 32768 */
 #define DDR_tREFI	7800
