@@ -26,7 +26,7 @@ gd_t gdata __attribute__ ((section(".bss")));
 
 void board_init_f(ulong dummy)
 {
-	struct mmc *mmc;
+	//struct mmc *mmc;
 	int ret;
 
 	/* Set global data pointer */
@@ -55,7 +55,6 @@ void board_init_f(ulong dummy)
 		hang();
 	}
 
-
 	debug_print("SDRAM: ");
 	ret = sdram_init();
 	if(ret == 0) {
@@ -74,6 +73,7 @@ void board_init_f(ulong dummy)
 
 	gd->flags |= GD_FLG_SPL_INIT;
 
+	/*
 	debug_print("MMC: ");
 	ret = mmc_initialize(NULL);
 	if (ret) {
@@ -93,8 +93,11 @@ void board_init_f(ulong dummy)
 		hang();
 	}
 	debug_print("ok\n");
+	*/
 
-	serial_init();
+	//debug_print("Console: ");
+	//preloader_console_init();
+	//printf("ok\n");
 }
 #endif /* CONFIG_SPL_BUILD */
 

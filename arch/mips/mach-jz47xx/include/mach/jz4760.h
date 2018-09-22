@@ -1481,6 +1481,7 @@ do {							\
  * Define macros for UART_IER
  * UART Interrupt Enable Register
  */
+#if 0
 #define UART_IER_RIE	(1 << 0)	/* 0: receive fifo "full" interrupt disable */
 #define UART_IER_TIE	(1 << 1)	/* 0: transmit fifo "empty" interrupt disable */
 #define UART_IER_RLIE	(1 << 2)	/* 0: receive line status interrupt disable */
@@ -1574,6 +1575,7 @@ do {							\
 #define UART_MSR_DSR	(1 << 5)	/* 0: DSR_ pin is high */
 #define UART_MSR_RI	(1 << 6)	/* 0: RI_ pin is high */
 #define UART_MSR_DCD	(1 << 7)	/* 0: DCD_ pin is high */
+#endif
 
 /*
  * Define macros for SIRCR

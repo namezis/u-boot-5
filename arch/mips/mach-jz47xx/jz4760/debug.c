@@ -10,6 +10,7 @@
 #include <config.h>
 #include <mach/jz4760.h>
 #include <serial.h>
+#include <ns16550.h>
 
 #define DUART_BASE		UART1_BASE
 #define DUART_DLLR		REG8(DUART_BASE + OFF_DLLR)
@@ -33,10 +34,10 @@ void debug_init(void) {
 	baud_div = ((CONFIG_SYS_NS16550_CLK >> 4) / CONFIG_BAUDRATE);
 	DUART_DLHR = (baud_div >> 8) & 0xFF;
 	DUART_DLLR = baud_div & 0xFF;
-	DUART_LCR = UART_LCR_STOP_1 | UART_LCR_WLEN_8; // 8n1
+	DUART_LCR = UART_LCR_WLS_8; // 8n1
 
 	// Enable UART with FIFO
-	DUART_FCR |= (UART_FCR_FE | UART_FCR_UUE);
+	DUART_FCR |= (UART_FCR_FIFO_EN | UART_FCR_UME);
 }
 
 void debug_putc(char ch) {
@@ -44,7 +45,7 @@ void debug_putc(char ch) {
 		debug_putc('\r');
 	}
 	DUART_TDR = ch;
-	while((DUART_LSR & UART_LSR_TDRQ) == 0);
+	while((DUART_LSR & UART_LSR_THRE) == 0);
 }
 
 void debug_print(const char *msg) {
@@ -83,5 +84,5 @@ struct serial_device duart = {
 };
 
 struct serial_device *default_serial_console(void) {
-	return &duart;
+	return &eserial2_device;
 }
