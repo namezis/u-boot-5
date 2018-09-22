@@ -16,6 +16,7 @@
 #include <mmc.h>
 #include <spl.h>
 #include <serial.h>
+#include <debug_uart.h>
 
 #define EXTAL	12000000
 
@@ -32,41 +33,41 @@ void board_init_f(ulong dummy)
 	/* Set global data pointer */
 	gd = &gdata;
 
-	debug_init();
-	debug_print("\n\n\n--------------------------------------------------------------------------------\n");
-	debug_print("SPL board_init_f\n");
+	debug_uart_init();
+	printascii("\n\n\n--------------------------------------------------------------------------------\n");
+	printascii("SPL board_init_f\n");
 
-	debug_print("PLL: ");
+	printascii("PLL: ");
 	ret = pll_init();
 	if(ret == 0) {
-		debug_print(" ok\n");
+		printascii(" ok\n");
 	}else{
-		debug_print(" fail\n");
+		printascii(" fail\n");
 		hang();
 	}
 
-	debug_print("Timer: ");
+	printascii("Timer: ");
 	ret = timer_init();
 	udelay(1);
 	if(ret == 0) {
-		debug_print("ok\n");
+		printascii("ok\n");
 	}else{
-		debug_print(" fail\n");
+		printascii(" fail\n");
 		hang();
 	}
 
-	debug_print("SDRAM: ");
+	printascii("SDRAM: ");
 	ret = sdram_init();
 	if(ret == 0) {
-		debug_print(" ok\n");
+		printascii(" ok\n");
 	}else{
-		debug_print(" fail\n");
+		printascii(" fail\n");
 		hang();
 	}
 
-	debug_print("Cache: ");
+	printascii("Cache: ");
 	enable_caches();
-	debug_print(" ok\n");
+	printascii(" ok\n");
 
 	/* Clear the BSS */
 	memset(__bss_start, 0, (char *)&__bss_end - __bss_start);
@@ -74,28 +75,28 @@ void board_init_f(ulong dummy)
 	gd->flags |= GD_FLG_SPL_INIT;
 
 	/*
-	debug_print("MMC: ");
+	printascii("MMC: ");
 	ret = mmc_initialize(NULL);
 	if (ret) {
-		debug_print("initialize fail\n");
+		printascii("initialize fail\n");
 		hang();
 	}
 
 	mmc = find_mmc_device(BOOT_DEVICE_MMC1);
 	if(!mmc) {
-		debug_print("not found fail\n");
+		printascii("not found fail\n");
 		hang();
 	}
 
 	ret = mmc_init(mmc);
 	if (ret) {
-		debug_print("init fail\n");
+		printascii("init fail\n");
 		hang();
 	}
-	debug_print("ok\n");
+	printascii("ok\n");
 	*/
 
-	//debug_print("Console: ");
+	//printascii("Console: ");
 	//preloader_console_init();
 	//printf("ok\n");
 }

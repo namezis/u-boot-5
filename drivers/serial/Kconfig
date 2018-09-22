@@ -221,6 +221,11 @@ config DEBUG_UART_BCM6345
 	  will need to provide parameters to make this work. The driver will
 	  be available until the real driver model serial is running.
 
+config DEBUG_UART_JZ4760
+	bool "jz4760"
+	help
+	  Yeah I know.
+
 config DEBUG_UART_NS16550
 	bool "ns16550"
 	help
