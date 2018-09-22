@@ -30,7 +30,7 @@ void debug_init(void) {
 
 	DUART_LCR |= UART_LCR_DLAB;
 
-	baud_div = (CONFIG_SYS_NS16550_CLK / 16 / CONFIG_BAUDRATE);
+	baud_div = ((CONFIG_SYS_NS16550_CLK >> 4) / CONFIG_BAUDRATE);
 	DUART_DLHR = (baud_div >> 8) & 0xFF;
 	DUART_DLLR = baud_div & 0xFF;
 	DUART_LCR = UART_LCR_STOP_1 | UART_LCR_WLEN_8; // 8n1

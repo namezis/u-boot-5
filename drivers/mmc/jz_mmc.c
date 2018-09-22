@@ -13,7 +13,7 @@
 #include <asm/io.h>
 #include <asm/unaligned.h>
 #include <errno.h>
-#include <mach/jz4780.h>
+#include <mach/jz.h>
 
 /* Registers */
 #define MSC_STRPCL			0x000
@@ -33,6 +33,8 @@
 #define MSC_RXFIFO			0x038
 #define MSC_TXFIFO			0x03c
 #define MSC_LPM				0x040
+
+#if defined(CONFIG_SOC_JZ4780)
 #define MSC_DMAC			0x044
 #define MSC_DMANDA			0x048
 #define MSC_DMADA			0x04c
@@ -41,6 +43,7 @@
 #define MSC_CTRL2			0x058
 #define MSC_RTCNT			0x05c
 #define MSC_DBG				0x0fc
+#endif
 
 /* MSC Clock and Control Register (MSC_STRPCL) */
 #define MSC_STRPCL_EXIT_MULTIPLE	BIT(7)
@@ -143,7 +146,9 @@ static int jz_mmc_send_cmd(struct mmc *mmc, struct jz_mmc_priv *priv,
 	while (readl(priv->regs + MSC_STAT) & MSC_STAT_CLK_EN)
 		;
 
+#if defined(CONFIG_SOC_JZ4780)
 	writel(0, priv->regs + MSC_DMAC);
+#endif
 
 	/* setup command */
 	writel(cmd->cmdidx, priv->regs + MSC_CMD);

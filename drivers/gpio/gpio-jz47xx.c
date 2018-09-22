@@ -9,7 +9,7 @@
 #include <common.h>
 #include <asm/io.h>
 #include <errno.h>
-#include <mach/jz4780.h>
+#include <mach/jz.h>
 
 int gpio_get_value(unsigned gpio)
 {

@@ -15,6 +15,7 @@
 #include <mach/jz4760_dram.h>
 #include <mmc.h>
 #include <spl.h>
+#include <serial.h>
 
 #define EXTAL	12000000
 
@@ -25,20 +26,16 @@ gd_t gdata __attribute__ ((section(".bss")));
 
 void board_init_f(ulong dummy)
 {
-	typedef void __noreturn (*image_entry_noargs_t)(void);
 	struct mmc *mmc;
-	unsigned long count;
-	struct image_header *header;
 	int ret;
+
+	/* Set global data pointer */
+	gd = &gdata;
 
 	debug_init();
 	debug_print("\n\n\n--------------------------------------------------------------------------------\n");
 	debug_print("SPL board_init_f\n");
 
-	/* Set global data pointer */
-	gd = &gdata;
-
-	//timer_init();
 	debug_print("PLL: ");
 	ret = pll_init();
 	if(ret == 0) {
@@ -47,6 +44,17 @@ void board_init_f(ulong dummy)
 		debug_print(" fail\n");
 		hang();
 	}
+
+	debug_print("Timer: ");
+	ret = timer_init();
+	udelay(1);
+	if(ret == 0) {
+		debug_print("ok\n");
+	}else{
+		debug_print(" fail\n");
+		hang();
+	}
+
 
 	debug_print("SDRAM: ");
 	ret = sdram_init();
@@ -66,44 +74,27 @@ void board_init_f(ulong dummy)
 
 	gd->flags |= GD_FLG_SPL_INIT;
 
-	debug_print("mmc_initialize ");
-
-	__cpm_select_msc_clk(0, 1);
-	__cpm_start_msc0();
-
+	debug_print("MMC: ");
 	ret = mmc_initialize(NULL);
-	if (ret)
+	if (ret) {
+		debug_print("initialize fail\n");
 		hang();
+	}
 
-	debug_print("find_mmc_device ");
 	mmc = find_mmc_device(BOOT_DEVICE_MMC1);
-	if (ret)
+	if(!mmc) {
+		debug_print("not found fail\n");
 		hang();
+	}
 
-	debug_print("mmc_init ");
 	ret = mmc_init(mmc);
-	if (ret)
+	if (ret) {
+		debug_print("init fail\n");
 		hang();
+	}
 	debug_print("ok\n");
 
-	header = (struct image_header *)(CONFIG_SYS_TEXT_BASE -
-					 sizeof(struct image_header));
-
-	debug_print("read header...");
-	count = blk_dread(mmc_get_blk_desc(mmc),
-		CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR,
-		0x800, header);
-	if (count == 0)
-		hang();
-	debug_print("ok\n");
-
-	image_entry_noargs_t image_entry =
-		(image_entry_noargs_t)CONFIG_SYS_TEXT_BASE;
-
-	debug_print("calling u-boot\n");
-	image_entry();
-
-	hang();
+	serial_init();
 }
 #endif /* CONFIG_SPL_BUILD */
 
@@ -115,4 +106,11 @@ int print_cpuinfo(void) {
 int dram_init(void) {
 	// Does nothing because DRAM was already configured in SPL
 	return 0;
+}
+
+int board_mmc_init(bd_t *bd) {
+	__gpio_as_msc0();
+	__cpm_select_msc_clk(0, 1);
+	__cpm_start_msc0();
+	return jz_mmc_init((void __iomem *)MSC0_BASE);
 }

@@ -526,6 +526,7 @@
 /*************************************************************************
  * TCU (Timer Counter Unit)
  *************************************************************************/
+#if 0
 #define TCU_TSR		(TCU_BASE + 0x1C) /* Timer Stop Register */
 #define TCU_TSSR	(TCU_BASE + 0x2C) /* Timer Stop Set Register */
 #define TCU_TSCR	(TCU_BASE + 0x3C) /* Timer Stop Clear Register */
@@ -828,6 +829,7 @@
 #define TCU_TSCR_STPS2		(1 << 2)
 #define TCU_TSCR_STPS1		(1 << 1)
 #define TCU_TSCR_STPS0		(1 << 0)
+#endif
 
 
 /*************************************************************************
@@ -2034,6 +2036,7 @@ do {							\
 /*************************************************************************
  * MSC
  *************************************************************************/
+#if 0
 #define	MSC_STRPCL		(MSC0_BASE + 0x000)
 #define	MSC_STAT		(MSC0_BASE + 0x004)
 #define	MSC_CLKRT		(MSC0_BASE + 0x008)
@@ -2167,6 +2170,7 @@ do {							\
 #define	MSC_IREG_END_CMD_RES		(1 << 2)
 #define	MSC_IREG_PRG_DONE		(1 << 1)
 #define	MSC_IREG_DATA_TRAN_DONE		(1 << 0)
+#endif
 
 /*************************************************************************
  * EMC (External SDR Controller)
@@ -6877,6 +6881,7 @@ do {                                                                 \
 
 int pll_init(void);
 int sdram_init(void);
+int jz_mmc_init(void __iomem *base);
 
 void debug_init(void);
 void debug_putc(char ch);

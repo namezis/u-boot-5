@@ -11,7 +11,7 @@
 #include <asm/io.h>
 #include <asm/unaligned.h>
 #include <errno.h>
-#include <mach/jz4780.h>
+#include <mach/jz.h>
 
 #define EFUSE_EFUCTRL			0xd0
 #define EFUSE_EFUCFG			0xd4
